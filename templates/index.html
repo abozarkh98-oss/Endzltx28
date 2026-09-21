@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بسته‌های اینترنت مودم ZLTX28</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{font-family:'Vazirmatn',sans-serif;background:#0b0f19;color:#f3f4f6}
+.glass{background:rgba(15,23,42,.72);backdrop-filter:blur(16px);border:1px solid rgba(148,163,184,.12)}
+.glow{box-shadow:0 0 25px rgba(14,165,233,.15)}
+</style>
+</head>
+<body class="min-h-screen flex flex-col">
+<header class="border-b border-slate-800 bg-slate-900/60 backdrop-blur-md sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between w-full">
+<div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center glow">⚡</div>
+<div><h1 class="text-lg font-bold">مودم ZLT X28</h1><p class="text-xs text-slate-400">پنل اختصاصی اینترنت پرسرعت 5G / 4.5G</p></div></div>
+<div class="flex gap-2"><a id="adminLink" href="/admin" class="hidden bg-indigo-500/10 text-indigo-300 border border-indigo-500/30 px-4 py-2 rounded-xl text-sm">مدیریت</a>
+<button onclick="openLoginModal()" class="bg-slate-800 hover:bg-slate-700 text-sky-400 border border-sky-500/30 px-4 py-2 rounded-xl text-sm">ورود مشتریان</button></div>
+</div></header>
+
+<main class="max-w-7xl mx-auto px-4 py-10 flex-grow w-full">
+<div class="text-center max-w-3xl mx-auto mb-12"><span class="bg-sky-500/10 text-sky-400 text-xs px-3 py-1 rounded-full border border-sky-500/20">نسل جدید ارتباطات بی‌سیم</span>
+<h2 class="text-3xl sm:text-4xl font-extrabold mt-4 mb-4">خرید و مدیریت بسته‌های اینترنت مودم</h2>
+<p class="text-slate-400 text-sm sm:text-base leading-relaxed">بسته‌های ویژه و پرسرعت مخصوص مودم‌های سیم‌کارتی ZLT X28. بسته را انتخاب کنید یا وارد پنل شوید.</p></div>
+
+<div class="flex justify-center mb-8"><div class="bg-slate-900 p-1.5 rounded-2xl border border-slate-800 inline-flex gap-1">
+<button onclick="switchTab('daily')" id="btn-daily" class="tab px-6 py-2.5 rounded-xl text-sm font-semibold bg-sky-500 text-white">روزه</button>
+<button onclick="switchTab('weekly')" id="btn-weekly" class="tab px-6 py-2.5 rounded-xl text-sm font-semibold text-slate-400">هفتگی</button>
+<button onclick="switchTab('monthly')" id="btn-monthly" class="tab px-6 py-2.5 rounded-xl text-sm font-semibold text-slate-400">ماهانه</button>
+</div></div>
+<div id="packages-container" class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto"></div>
+
+<section id="chatSection" class="max-w-3xl mx-auto mt-12 glass rounded-2xl p-5 hidden">
+<div class="flex justify-between items-center mb-4"><h3 class="font-bold">پشتیبانی و چت</h3><button onclick="loadMessages()" class="text-sky-400 text-sm">↻ بروزرسانی</button></div>
+<div id="messages" class="space-y-2 max-h-72 overflow-auto mb-4"></div>
+<div class="flex gap-2"><input id="chatInput" class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-3" placeholder="پیام خود را بنویسید..."><button onclick="sendMessage()" class="bg-sky-500 px-5 rounded-xl">ارسال</button></div>
+</section>
+</main>
+
+<div id="login-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 items-center justify-center hidden p-4">
+<div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl">
+<div id="login-view"><h3 class="text-xl font-bold mb-2">ورود به پنل کاربری</h3><p class="text-xs text-slate-400 mb-6">نام کاربری و رمز عبور را وارد کنید.</p>
+<form onsubmit="handleLogin(event)" class="space-y-4"><input id="username" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3" placeholder="نام کاربری">
+<input id="password" type="password" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3" placeholder="رمز عبور">
+<button class="w-full bg-sky-500 py-3 rounded-xl">ورود</button></form></div>
+<div id="dashboard-view" class="hidden"><div class="text-center mb-6"><span class="text-emerald-400 text-xs">حساب فعال</span><h3 id="welcome-user" class="text-lg font-bold mt-2"></h3></div>
+<div class="space-y-3 bg-slate-950 p-4 rounded-xl border border-slate-800">
+<div class="flex justify-between"><span class="text-slate-400">حجم کل</span><b id="total-traffic"></b></div>
+<div class="flex justify-between"><span class="text-slate-400">مصرف‌شده</span><b id="used-traffic" class="text-amber-400"></b></div>
+<div class="flex justify-between"><span class="text-slate-400">باقی‌مانده</span><b id="remain-traffic" class="text-emerald-400"></b></div>
+<div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden"><div id="traffic-progress" class="bg-gradient-to-r from-sky-500 to-emerald-500 h-full"></div></div>
+<div class="text-xs text-slate-400">اعتبار باقی‌مانده: <b id="days-left" class="text-white"></b> روز</div></div>
+<div class="grid grid-cols-2 gap-2 mt-4"><button onclick="closeLoginModal()" class="bg-slate-800 py-2 rounded-xl">بستن</button><button onclick="logout()" class="bg-rose-500/10 text-rose-400 py-2 rounded-xl">خروج</button></div>
+</div></div></div>
+
+<footer class="border-t border-slate-800 bg-slate-900/40 py-6 text-center text-xs text-slate-500">تمامی حقوق برای مدیریت مودم ZLT X28 محفوظ است. © 2026</footer>
+<script>
+let packages=[];
+async function api(url,options={}){const r=await fetch(url,{headers:{'Content-Type':'application/json',...(options.headers||{})},...options});let d={};try{d=await r.json()}catch(e){};if(!r.ok)throw new Error(d.message||'خطای سرور');return d}
+async function loadPackages(){packages=await api('/api/packages');switchTab('daily')}
+function switchTab(cat){document.querySelectorAll('.tab').forEach(b=>{b.classList.remove('bg-sky-500','text-white');b.classList.add('text-slate-400')});let b=document.getElementById('btn-'+cat);b.classList.add('bg-sky-500','text-white');b.classList.remove('text-slate-400');let c=document.getElementById('packages-container');c.innerHTML='';packages.filter(p=>p.category===cat).forEach(p=>{c.innerHTML+=`<div class="glass rounded-2xl p-6 flex flex-col justify-between hover:border-sky-500/50 transition"><div><div class="flex justify-between mb-4"><span class="bg-sky-500/10 text-sky-400 text-xs px-3 py-1 rounded-full">${p.tag}</span><span class="text-xs text-slate-400">ZLT-X28</span></div><h3 class="text-lg font-bold mb-2">${p.name}</h3><p class="text-slate-400 text-xs mb-6">${p.desc}</p><div class="bg-slate-950 p-4 rounded-xl border border-slate-800 mb-6 flex justify-between"><div><span class="text-xs text-slate-500 block">حجم</span><b class="text-emerald-400">${p.data}</b></div><div class="text-left"><span class="text-xs text-slate-500 block">قیمت</span><b>${Number(p.price).toLocaleString('fa-IR')} تومان</b></div></div></div><button onclick="buy(${p.id})" class="w-full bg-slate-800 hover:bg-sky-500 py-3 rounded-xl">انتخاب و ثبت سفارش</button></div>`})}
+function openLoginModal(){document.getElementById('login-modal').classList.remove('hidden');document.getElementById('login-modal').classList.add('flex')}
+function closeLoginModal(){document.getElementById('login-modal').classList.add('hidden');document.getElementById('login-modal').classList.remove('flex')}
+async function handleLogin(e){e.preventDefault();try{let d=await api('/api/login',{method:'POST',body:JSON.stringify({username:username.value,password:password.value})});showUser(d);closeLoginModal();document.getElementById('chatSection').classList.remove('hidden');loadMessages()}catch(e){alert(e.message)}}
+function showUser(d){document.getElementById('login-view').classList.add('hidden');document.getElementById('dashboard-view').classList.remove('hidden');welcome-user.innerText='خوش آمدید، '+d.username;total-traffic.innerText=d.total+' گیگابایت';used-traffic.innerText=d.used+' گیگابایت';remain-traffic.innerText=d.remaining+' گیگابایت';days-left.innerText=d.days_left;traffic-progress.style.width=(d.total?Math.min(100,d.used/d.total*100):0)+'%';if(d.is_admin)adminLink.classList.remove('hidden')}
+async function buy(id){try{let d=await api('/api/me');showUser(d);let o=await api('/api/orders',{method:'POST',body:JSON.stringify({package_id:id})});alert('سفارش شماره '+o.order_id+' ثبت شد. وضعیت: '+o.status)}catch(e){openLoginModal();alert('برای ثبت سفارش ابتدا وارد حساب شوید.')}}
+async function logout(){await api('/api/logout',{method:'POST'});location.reload()}
+async function loadMessages(){try{let ms=await api('/api/messages');messages.innerHTML=ms.map(m=>`<div class="p-3 rounded-xl ${m.sender==='user'?'bg-sky-500/10 mr-8':'bg-slate-800 ml-8'}"><span class="text-xs text-slate-400">${m.sender==='user'?'شما':'پشتیبانی'}</span><div>${m.text}</div></div>`).join('')}catch(e){}}
+async function sendMessage(){let t=chatInput.value.trim();if(!t)return;try{await api('/api/messages',{method:'POST',body:JSON.stringify({text:t})});chatInput.value='';loadMessages()}catch(e){alert(e.message)}}
+async function restore(){try{let d=await api('/api/me');showUser(d);document.getElementById('chatSection').classList.remove('hidden');loadMessages()}catch(e){}}
+loadPackages();restore();
+</script>
+</body></html>
