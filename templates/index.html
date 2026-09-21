@@ -9,10 +9,9 @@
     <style>
         body { font-family: 'Vazirmatn', sans-serif; background-color: #0b0f19; color: #f3f4f6; }
         .glow-effect { box-shadow: 0 0 25px rgba(14, 165, 233, 0.15); }
-        .glow-button:hover { box-shadow: 0 0 20px rgba(14, 165, 233, 0.5); }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-sky-500 selection:text-white">
+<body class="min-h-screen flex flex-col justify-between">
 
     <header class="border-b border-slate-800 bg-slate-900/60 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
@@ -22,11 +21,16 @@
                 </div>
                 <div>
                     <h1 class="text-lg font-bold tracking-wide text-white">مودم ZLT X28</h1>
-                    <p class="text-xs text-slate-400">پنل اختصاصی اینترنت پرسرعت 5G / 4.5G</p>
+                    <p class="text-xs text-slate-400">پنل اختصاصی اینترنت 5G / 4.5G</p>
                 </div>
             </div>
-            <div>
-                <button onclick="openLoginModal()" class="bg-slate-800 hover:bg-slate-700 text-sky-400 border border-sky-500/30 px-4 py-2 rounded-xl text-sm font-medium transition duration-200 flex items-center gap-2">
+            
+            <!-- دکمه‌های ورود مشتریان و ورود مدیریت در منو -->
+            <div class="flex items-center gap-2">
+                <a href="/admin/login" class="bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 px-3 py-2 rounded-xl text-xs font-medium transition">
+                    ورود مدیریت
+                </a>
+                <button onclick="openLoginModal()" class="bg-slate-800 hover:bg-slate-700 text-sky-400 border border-sky-500/30 px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 01-3-3h7a3 3 0 013 3v1"></path></svg>
                     ورود مشتریان
                 </button>
@@ -38,105 +42,109 @@
         <div class="text-center max-w-3xl mx-auto mb-12">
             <span class="bg-sky-500/10 text-sky-400 text-xs font-semibold px-3 py-1 rounded-full border border-sky-500/20 inline-block mb-4">نسل جدید ارتباطات بی‌سیم</span>
             <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-4">خرید و مدیریت بسته‌های اینترنت مودم</h2>
-            <p class="text-slate-400 text-sm sm:text-base leading-relaxed">بسته‌های ویژه و پرسرعت مخصوص مودم‌های سیم‌کارتی ZLT X28. بسته‌ی مورد نظر خود را انتخاب کنید یا با ورود به پنل کاربری، وضعیت مصرف لحظه‌ای خود را بررسی نمایید.</p>
+            <p class="text-slate-400 text-sm">جهت خرید بسته و مدیریت سرویس، ابتدا باید وارد حساب کاربری خود شوید.</p>
         </div>
 
         <div class="flex justify-center mb-8">
             <div class="bg-slate-900 p-1.5 rounded-2xl border border-slate-800 inline-flex gap-1">
-                <button onclick="switchTab('daily')" id="btn-daily" class="px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 bg-sky-500 text-white shadow-lg shadow-sky-500/25">روزه</button>
-                <button onclick="switchTab('weekly')" id="btn-weekly" class="px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 text-slate-400 hover:text-white">هفتگی</button>
-                <button onclick="switchTab('monthly')" id="btn-monthly" class="px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 text-slate-400 hover:text-white">ماهانه</button>
+                <button onclick="switchTab('daily')" id="btn-daily" class="px-6 py-2.5 rounded-xl text-sm font-semibold transition bg-sky-500 text-white">روزه</button>
+                <button onclick="switchTab('weekly')" id="btn-weekly" class="px-6 py-2.5 rounded-xl text-sm font-semibold transition text-slate-400 hover:text-white">هفتگی</button>
+                <button onclick="switchTab('monthly')" id="btn-monthly" class="px-6 py-2.5 rounded-xl text-sm font-semibold transition text-slate-400 hover:text-white">ماهانه</button>
             </div>
         </div>
 
         <div id="packages-container" class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto"></div>
     </main>
 
+    <!-- Modal ورود / پنل کاربر -->
     <div id="login-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
             <button onclick="closeLoginModal()" class="absolute top-4 left-4 text-slate-400 hover:text-white text-xl">✕</button>
             
+            <!-- فرم ورود -->
             <div id="login-form-view">
                 <div class="text-center mb-6">
                     <h3 class="text-xl font-bold text-white mb-2">ورود به پنل کاربری</h3>
-                    <p class="text-xs text-slate-400">جهت خرید و مشاهده مصرف، وارد حساب خود شوید.</p>
+                    <p class="text-xs text-slate-400">اطلاعات حساب خود را وارد نمایید.</p>
                 </div>
                 <form onsubmit="handleLogin(event)" class="space-y-4">
                     <div>
                         <label class="block text-xs font-medium text-slate-300 mb-1">نام کاربری</label>
-                        <input type="text" id="username" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-sky-500 transition" placeholder="مثال: user123">
+                        <input type="text" id="username" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-sky-500">
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-slate-300 mb-1">رمز عبور</label>
-                        <input type="password" id="password" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-sky-500 transition" placeholder="••••••••">
+                        <input type="password" id="password" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-sky-500">
                     </div>
-                    <button type="submit" class="w-full bg-sky-500 hover:bg-sky-400 text-white font-semibold py-3 rounded-xl transition duration-200 shadow-lg shadow-sky-500/20">ورود به سیستم</button>
+                    <button type="submit" class="w-full bg-sky-500 hover:bg-sky-400 text-white font-semibold py-3 rounded-xl transition">ورود به سیستم</button>
                 </form>
             </div>
 
+            <!-- داشبورد کاربر -->
             <div id="dashboard-view" class="hidden">
                 <div class="text-center mb-6">
-                    <span class="bg-emerald-500/10 text-emerald-400 text-xs px-3 py-1 rounded-full border border-emerald-500/20">متصل به مودم</span>
-                    <h3 class="text-lg font-bold text-white mt-3" id="welcome-user">خوش آمدید</h3>
+                    <h3 class="text-lg font-bold text-white" id="welcome-user">خوش آمدید</h3>
                 </div>
                 
-                <div class="space-y-4 bg-slate-950 p-4 rounded-xl border border-slate-800 mb-6">
-                    <div class="flex justify-between items-center text-sm">
-                        <span class="text-slate-400">حجم کل بسته:</span>
-                        <span class="font-bold text-white" id="total-traffic">0 گیگابایت</span>
+                <!-- هشدار سرویس نداشتن -->
+                <div id="no-service-alert" class="hidden bg-rose-500/10 border border-rose-500/30 text-rose-400 p-4 rounded-xl text-center text-xs mb-4">
+                    ⚠️ <strong>شما هیچ سرویس فعالی ندارید!</strong><br>لطفاً ابتدا یک بسته از لیست صفحه اصلی خریداری کنید.
+                </div>
+
+                <div id="service-info-box" class="space-y-3 bg-slate-950 p-4 rounded-xl border border-slate-800 mb-6">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-slate-400">حجم کل:</span>
+                        <span class="font-bold text-white" id="total-traffic">0 GB</span>
                     </div>
-                    <div class="flex justify-between items-center text-sm">
-                        <span class="text-slate-400">حجم مصرف شده:</span>
-                        <span class="font-bold text-amber-400" id="used-traffic">0 گیگابایت</span>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-slate-400">حجم مصرفی:</span>
+                        <span class="font-bold text-amber-400" id="used-traffic">0 GB</span>
                     </div>
-                    <div class="flex justify-between items-center text-sm">
-                        <span class="text-slate-400">حجم باقیمانده:</span>
-                        <span class="font-bold text-emerald-400" id="remain-traffic">0 گیگابایت</span>
+                    <div class="flex justify-between text-sm">
+                        <span class="text-slate-400">باقیمانده:</span>
+                        <span class="font-bold text-emerald-400" id="remain-traffic">0 GB</span>
                     </div>
                     <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                        <div id="traffic-progress" class="bg-gradient-to-r from-sky-500 to-emerald-500 h-full w-[0%]"></div>
+                        <div id="traffic-progress" class="bg-sky-500 h-full w-[0%]"></div>
                     </div>
-                    <div class="flex justify-between items-center text-xs text-slate-500 pt-1">
-                        <span>اعتبار باقی‌مانده: <strong class="text-slate-300" id="remain-days">0 روز</strong></span>
+                    <div class="text-xs text-slate-400 text-left pt-1">
+                        اعتبار: <strong class="text-white" id="remain-days">0 روز</strong>
                     </div>
                 </div>
 
-                <!-- لیست بسته‌های خریداری شده کاربر -->
                 <div class="mb-6">
-                    <h4 class="text-xs font-bold text-slate-400 mb-2">بسته‌های فعال/خریداری‌شده:</h4>
-                    <div id="user-packages-list" class="space-y-2 max-h-32 overflow-y-auto bg-slate-950 p-2 rounded-xl border border-slate-800 text-xs">
-                        <p class="text-slate-500 text-center py-2">هیچ بسته‌ای خریداری نشده است.</p>
-                    </div>
+                    <h4 class="text-xs font-bold text-slate-400 mb-2">بسته‌های خریداری شده:</h4>
+                    <div id="user-packages-list" class="space-y-2 max-h-32 overflow-y-auto bg-slate-950 p-3 rounded-xl border border-slate-800 text-xs"></div>
                 </div>
 
                 <div id="user-msg-box" class="bg-sky-500/10 border border-sky-500/30 p-3 rounded-xl text-xs text-sky-300 mb-6 hidden"></div>
 
-                <button onclick="logout()" class="w-full bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 font-medium py-2.5 rounded-xl transition duration-200 text-sm">خروج از حساب</button>
+                <button onclick="logout()" class="w-full bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 font-medium py-2.5 rounded-xl transition text-sm">خروج از حساب</button>
             </div>
         </div>
     </div>
 
     <footer class="border-t border-slate-800 bg-slate-900/40 py-6 text-center text-xs text-slate-500">
-        <p>تمامی حقوق برای مدیریت مودم ZLT X28 محفوظ است. © 2026</p>
+        <p>© 2026 پنل اختصاصی مودم ZLT X28</p>
     </footer>
 
     <script>
+        let isLoggedIn = false;
         let currentUser = null;
-        let pendingPurchase = null;
 
         const packagesData = {
             daily: [
-                { name: "بسته ۱ روزه", data: "۱ گیگابایت", price: "۱۵,۰۰۰", desc: "بسته اقتصادی روزانه مناسب کارهای سبک", tag: "اقتصادی" },
-                { name: "بسته ۱ روزه", data: "۲ گیگابایت", price: "۲۰,۰۰۰", desc: "سرعت فوق‌العاده مناسب وب‌گردی", tag: "پرفروش" },
-                { name: "بسته ۱ روزه", data: "۳ گیگابایت", price: "۳۰,۰۰۰", desc: "حجم مطلوب برای استفاده یک روزه پرسرعت", tag: "استاندارد" }
+                { name: "بسته ۱ روزه", data: "۱ گیگابایت", price: "۱۵,۰۰۰", tag: "اقتصادی" },
+                { name: "بسته ۱ روزه", data: "۲ گیگابایت", price: "۲۰,۰۰۰", tag: "پرفروش" },
+                { name: "بسته ۱ روزه", data: "۳ گیگابایت", price: "۳۰,۰۰۰", tag: "استاندارد" }
             ],
             weekly: [
-                { name: "بسته ۷ روزه استاندارد", data: "۵ گیگابایت", price: "۵۰,۰۰۰", desc: "مقرون‌به‌صرفه برای یک هفته کار و مرور وب", tag: "اقتصادی" },
-                { name: "بسته ۷ روزه پرطرفدار", data: "۷ گیگابایت", price: "۷۰,۰۰۰", desc: "مناسب برای استریم متوسط و استفاده روزمره", tag: "پرفروش" }
+                { name: "بسته ۷ روزه", data: "۵ گیگابایت", price: "۵۰,۰۰۰", tag: "اقتصادی" },
+                { name: "بسته ۷ روزه", data: "۷ گیگابایت", price: "۷۰,۰۰۰", tag: "پرفروش" }
             ],
             monthly: [
-                { name: "بسته ۳۰ روزه پایه", data: "۵ گیگابایت", price: "۶۵,۰۰۰", desc: "بسته پایه ماهانه برای اتصال دائمی و سبک", tag: "اقتصادی" },
-                { name: "بسته ۳۰ روزه سنگین", data: "۵۰ گیگابایت", price: "۶۰۰,۰۰۰", desc: "حجم بالا برای ترافیک کاری و دانلود مداوم", tag: "پرفروش" }
+                { name: "بسته ۳۰ روزه", data: "۵ گیگابایت", price: "۶۵,۰۰۰", tag: "اقتصادی" },
+                { name: "بسته ۳۰ روزه", data: "۵۰ گیگابایت", price: "۶۰۰,۰۰۰", tag: "پرفروش" }
             ]
         };
 
@@ -144,8 +152,8 @@
             ['daily', 'weekly', 'monthly'].forEach(cat => {
                 const btn = document.getElementById(`btn-${cat}`);
                 btn.className = (cat === category)
-                    ? "px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 bg-sky-500 text-white shadow-lg shadow-sky-500/25"
-                    : "px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 text-slate-400 hover:text-white";
+                    ? "px-6 py-2.5 rounded-xl text-sm font-semibold transition bg-sky-500 text-white"
+                    : "px-6 py-2.5 rounded-xl text-sm font-semibold transition text-slate-400 hover:text-white";
             });
 
             const container = document.getElementById('packages-container');
@@ -153,28 +161,17 @@
 
             packagesData[category].forEach(pkg => {
                 const card = document.createElement('div');
-                card.className = "bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between relative hover:border-sky-500/50 transition duration-300 group";
+                card.className = "bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col justify-between";
                 card.innerHTML = `
                     <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <span class="bg-sky-500/10 text-sky-400 text-xs font-semibold px-3 py-1 rounded-full border border-sky-500/20">${pkg.tag}</span>
-                            <span class="text-xs text-slate-400 font-mono">ZLT-X28</span>
-                        </div>
-                        <h3 class="text-lg font-bold text-white mb-2 group-hover:text-sky-400 transition">${pkg.name}</h3>
-                        <p class="text-slate-400 text-xs leading-relaxed mb-6">${pkg.desc}</p>
-                        
-                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80 mb-6 flex items-center justify-between">
-                            <div>
-                                <span class="text-xs text-slate-500 block">حجم بسته</span>
-                                <span class="text-base font-bold text-emerald-400">${pkg.data}</span>
-                            </div>
-                            <div class="text-left">
-                                <span class="text-xs text-slate-500 block">مبلغ سرمایه‌گذاری</span>
-                                <span class="text-lg font-extrabold text-white">${pkg.price} <small class="text-xs text-slate-400">تومان</small></span>
-                            </div>
+                        <span class="bg-sky-500/10 text-sky-400 text-xs px-3 py-1 rounded-full border border-sky-500/20 inline-block mb-4">${pkg.tag}</span>
+                        <h3 class="text-lg font-bold text-white mb-4">${pkg.name}</h3>
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 mb-6 flex justify-between items-center">
+                            <span class="text-emerald-400 font-bold">${pkg.data}</span>
+                            <span class="text-white font-extrabold">${pkg.price} تومان</span>
                         </div>
                     </div>
-                    <button onclick="handleBuy('${pkg.name}', '${pkg.price}')" class="w-full bg-slate-800 hover:bg-sky-500 text-slate-200 hover:text-white font-medium py-3 rounded-xl transition duration-200 text-sm glow-button border border-slate-700 hover:border-sky-400">انتخاب و خرید بسته</button>
+                    <button onclick="handleBuy('${pkg.name}', '${pkg.price}')" class="w-full bg-sky-500 hover:bg-sky-400 text-white font-medium py-3 rounded-xl transition text-sm">انتخاب و خرید بسته</button>
                 `;
                 container.appendChild(card);
             });
@@ -185,13 +182,13 @@
 
         function handleLogin(e) {
             e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+            const u = document.getElementById('username').value;
+            const p = document.getElementById('password').value;
 
             fetch('/api/login', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({username, password})
+                body: JSON.stringify({username: u, password: p})
             })
             .then(res => res.json())
             .then(data => {
@@ -200,39 +197,38 @@
                         window.location.href = data.redirect;
                         return;
                     }
-
+                    isLoggedIn = true;
                     currentUser = data.username;
-                    updateDashboardUI(data);
-
-                    document.getElementById('login-form-view').classList.add('hidden');
-                    document.getElementById('dashboard-view').classList.remove('hidden');
-
-                    if(pendingPurchase) {
-                        executePurchase(pendingPurchase.name, pendingPurchase.price);
-                        pendingPurchase = null;
-                    }
+                    renderDashboard(data);
                 } else {
                     alert(data.message);
                 }
             });
         }
 
-        function updateDashboardUI(data) {
-            document.getElementById('welcome-user').innerText = `خوش آمدید، (${data.username})`;
-            document.getElementById('total-traffic').innerText = data.total + ' گیگابایت';
-            document.getElementById('used-traffic').innerText = data.used + ' گیگابایت';
-            document.getElementById('remain-traffic').innerText = data.remaining + ' گیگابایت';
-            document.getElementById('remain-days').innerText = data.days + ' روز';
-            document.getElementById('traffic-progress').style.width = data.percent + '%';
-            
-            const pkgListDiv = document.getElementById('user-packages-list');
+        function renderDashboard(data) {
+            document.getElementById('login-form-view').classList.add('hidden');
+            document.getElementById('dashboard-view').classList.remove('hidden');
+            document.getElementById('welcome-user').innerText = `حساب کاربری: ${data.username}`;
+
+            if (!data.has_service) {
+                document.getElementById('no-service-alert').classList.remove('hidden');
+                document.getElementById('service-info-box').classList.add('hidden');
+            } else {
+                document.getElementById('no-service-alert').classList.add('hidden');
+                document.getElementById('service-info-box').classList.remove('hidden');
+                document.getElementById('total-traffic').innerText = data.total + ' گیگابایت';
+                document.getElementById('used-traffic').innerText = data.used + ' گیگابایت';
+                document.getElementById('remain-traffic').innerText = data.remaining + ' گیگابایت';
+                document.getElementById('remain-days').innerText = data.days + ' روز';
+                document.getElementById('traffic-progress').style.width = data.percent + '%';
+            }
+
+            const listDiv = document.getElementById('user-packages-list');
             if(data.purchased_packages && data.purchased_packages.length > 0) {
-                pkgListDiv.innerHTML = data.purchased_packages.map(p => 
-                    `<div class="flex justify-between items-center border-b border-slate-800 pb-1">
-                        <span class="text-emerald-400">${p.package}</span>
-                        <span class="text-slate-400">${p.price} تومان</span>
-                    </div>`
-                ).join('');
+                listDiv.innerHTML = data.purchased_packages.map(p => `<div class="flex justify-between text-slate-300 py-1 border-b border-slate-800"><span>${p.package}</span><span class="text-emerald-400">${p.price} تومان</span></div>`).join('');
+            } else {
+                listDiv.innerHTML = '<p class="text-slate-500 text-center">هیچ خریدی ثبت نشده است.</p>';
             }
 
             if(data.private_message) {
@@ -243,20 +239,16 @@
         }
 
         function handleBuy(pkgName, price) {
-            if(!currentUser) {
-                pendingPurchase = { name: pkgName, price: price };
-                alert("برای تکمیل خرید ابتدا باید وارد شوید.");
+            if (!isLoggedIn) {
+                alert("برا خرید ابتدا باید وارد یوزر پسورد خود شوید!");
                 openLoginModal();
-            } else {
-                executePurchase(pkgName, price);
+                return;
             }
-        }
 
-        function executePurchase(pkgName, price) {
             fetch('/api/order', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({username: currentUser, packageName: pkgName, price: price})
+                body: JSON.stringify({packageName: pkgName, price: price})
             })
             .then(res => res.json())
             .then(data => {
@@ -266,6 +258,7 @@
         }
 
         function logout() {
+            isLoggedIn = false;
             currentUser = null;
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('login-form-view').classList.remove('hidden');
