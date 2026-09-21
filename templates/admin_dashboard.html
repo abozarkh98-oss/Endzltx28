@@ -11,66 +11,70 @@
 <body class="p-6">
     <div class="max-w-6xl mx-auto space-y-8">
         <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-            <h1 class="text-2xl font-bold text-white">پنل مدیریت مودم ZLT X28</h1>
-            <a href="/admin/logout" class="bg-rose-500/10 text-rose-400 border border-rose-500/30 px-4 py-2 rounded-xl text-xs hover:bg-rose-500/20">خروج ادمین</a>
+            <h1 class="text-2xl font-bold text-white">پنل مدیریت کامل مودم ZLT X28</h1>
+            <a href="/admin/logout" class="bg-rose-500/10 text-rose-400 border border-rose-500/30 px-4 py-2 rounded-xl text-xs">خروج ادمین</a>
         </div>
 
-        <!-- ۱. وضعیت سخت‌افزاری سرور (CPU & RAM) -->
+        <!-- ۱. مانیتورینگ CPU و RAM -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 flex items-center justify-between">
                 <div>
-                    <span class="text-xs text-slate-400 block mb-1">مصرف پردازنده (CPU)</span>
+                    <span class="text-xs text-slate-400 block">مصرف پردازنده (CPU)</span>
                     <span class="text-2xl font-extrabold text-sky-400">%{{ stats.cpu_usage }}</span>
                 </div>
-                <div class="w-20 bg-slate-800 h-3 rounded-full overflow-hidden">
+                <div class="w-24 bg-slate-800 h-3 rounded-full overflow-hidden">
                     <div class="bg-sky-500 h-full" style="width: {{ stats.cpu_usage }}%"></div>
                 </div>
             </div>
             <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 flex items-center justify-between">
                 <div>
-                    <span class="text-xs text-slate-400 block mb-1">مصرف حافظه رم (RAM)</span>
+                    <span class="text-xs text-slate-400 block">مصرف حافظه رم (RAM)</span>
                     <span class="text-2xl font-extrabold text-emerald-400">%{{ stats.ram_usage }}</span>
                     <span class="text-[10px] text-slate-500 block">({{ stats.ram_used }} GB از {{ stats.ram_total }} GB)</span>
                 </div>
-                <div class="w-20 bg-slate-800 h-3 rounded-full overflow-hidden">
+                <div class="w-24 bg-slate-800 h-3 rounded-full overflow-hidden">
                     <div class="bg-emerald-500 h-full" style="width: {{ stats.ram_usage }}%"></div>
                 </div>
             </div>
         </div>
 
-        <!-- ۲. ساخت کاربر جدید -->
+        <!-- ۲. افزودن کاربر جدید -->
         <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
-            <h2 class="text-lg font-bold text-sky-400 mb-4">افزودن کاربر جدید</h2>
+            <h2 class="text-base font-bold text-sky-400 mb-4">افزودن کاربر جدید به سیستم</h2>
             <form action="/admin/add_user" method="POST" class="grid grid-cols-1 sm:grid-cols-5 gap-3">
                 <input type="text" name="username" placeholder="نام کاربری" required class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-white">
                 <input type="text" name="password" placeholder="رمز عبور" required class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-white">
-                <input type="number" step="0.1" name="total" placeholder="حجم کل (GB)" required class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-white">
-                <input type="number" name="days" placeholder="اعتبار (روز)" required class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-white">
+                <input type="number" step="0.1" name="total" placeholder="حجم کل (GB)" class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-white">
+                <input type="number" name="days" placeholder="اعتبار (روز)" class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-xs text-white">
                 <button type="submit" class="bg-sky-500 hover:bg-sky-400 text-white font-semibold py-2.5 rounded-xl text-xs">ایجاد کاربر</button>
             </form>
         </div>
 
-        <!-- ۳. ارسال پیام همگانی -->
+        <!-- ۳. پیام همگانی -->
         <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
-            <h2 class="text-lg font-bold text-sky-400 mb-4">ارسال پیام همگانی (Broadcast)</h2>
-            <form action="/admin/broadcast" method="POST" class="flex gap-4">
-                <input type="text" name="message" placeholder="متن پیام عمومی..." required class="flex-grow bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-sm text-white">
-                <button type="submit" class="bg-sky-500 hover:bg-sky-400 text-white font-semibold px-6 py-2 rounded-xl text-sm">ارسال به همه</button>
+            <h2 class="text-base font-bold text-sky-400 mb-4">ارسال اعلان همگانی برای همه کاربران</h2>
+            <form action="/admin/broadcast" method="POST" class="flex gap-3">
+                <input type="text" name="message" placeholder="متن پیام..." required class="flex-grow bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-white">
+                <button type="submit" class="bg-sky-500 hover:bg-sky-400 text-white font-semibold px-6 py-2 rounded-xl text-xs">ارسال همگانی</button>
             </form>
         </div>
 
-        <!-- ۴. مدیریت کاربران -->
+        <!-- ۴. لیست و مدیریت تمام کاربران -->
         <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
-            <h2 class="text-lg font-bold text-sky-400 mb-4">لیست کاربران و خریدهای ثبت‌شده</h2>
-            <div class="space-y-6">
+            <h2 class="text-base font-bold text-sky-400 mb-4">مدیریت کاربران و بسته‌های خریده شده</h2>
+            <div class="space-y-4">
                 {% for uid, user in users.items() %}
-                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-4">
-                    <div class="flex justify-between items-center">
-                        <span class="font-bold text-white">کاربر: {{ user.username }} | رمز: {{ user.password }}</span>
-                        <span class="text-xs text-slate-400">اعتبار باقی‌مانده: {{ user.days }} روز</span>
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+                    <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                        <span class="font-bold text-white text-sm">کاربر: <span class="text-sky-400">{{ user.username }}</span></span>
+                        <a href="/admin/delete_user/{{ uid }}" onclick="return confirm('آیا از حذف این کاربر اطمینان دارید؟')" class="text-rose-400 text-xs hover:underline">حذف کاربر</a>
                     </div>
                     
-                    <form action="/admin/update_user/{{ uid }}" method="POST" class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <form action="/admin/update_user/{{ uid }}" method="POST" class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                        <div>
+                            <label class="text-[10px] text-slate-400">رمز عبور</label>
+                            <input type="text" name="password" value="{{ user.password }}" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs text-white">
+                        </div>
                         <div>
                             <label class="text-[10px] text-slate-400">حجم کل (GB)</label>
                             <input type="number" step="0.1" name="total" value="{{ user.total }}" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs text-white">
@@ -80,17 +84,17 @@
                             <input type="number" step="0.1" name="used" value="{{ user.used }}" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs text-white">
                         </div>
                         <div>
-                            <label class="text-[10px] text-slate-400">روز باقی‌مانده</label>
+                            <label class="text-[10px] text-slate-400">اعتبار (روز)</label>
                             <input type="number" name="days" value="{{ user.days }}" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs text-white">
                         </div>
                         <div class="flex items-end">
-                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2 rounded-lg text-xs">ذخیره تغییرات</button>
+                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2 rounded-lg text-xs">ذخیره ویرایش</button>
                         </div>
                     </form>
 
                     <!-- خریدهای این کاربر -->
                     <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 text-xs">
-                        <span class="text-slate-400 font-bold block mb-1">خریدهای خریدار:</span>
+                        <span class="text-slate-400 font-bold block mb-1">بسته‌های خریداری‌شده:</span>
                         {% if user.purchased_packages %}
                             <ul class="list-disc list-inside text-emerald-400">
                                 {% for pkg in user.purchased_packages %}
@@ -98,13 +102,13 @@
                                 {% endfor %}
                             </ul>
                         {% else %}
-                            <span class="text-slate-500">خریدی انجام نشده است.</span>
+                            <span class="text-slate-500">خرید ثبت نشده است.</span>
                         {% endif %}
                     </div>
 
                     <form action="/admin/private_msg/{{ uid }}" method="POST" class="flex gap-2">
-                        <input type="text" name="private_message" value="{{ user.get('private_message', '') }}" placeholder="پیام اختصاصی..." class="flex-grow bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white">
-                        <button type="submit" class="bg-purple-600 hover:bg-purple-500 text-white font-semibold px-4 py-2 rounded-lg text-xs">ارسال پیام خصوصی</button>
+                        <input type="text" name="private_message" value="{{ user.get('private_message', '') }}" placeholder="ارسال پیام خصوصی..." class="flex-grow bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5 text-xs text-white">
+                        <button type="submit" class="bg-purple-600 hover:bg-purple-500 text-white font-semibold px-4 py-1.5 rounded-lg text-xs">ارسال پیام</button>
                     </form>
                 </div>
                 {% endfor %}
