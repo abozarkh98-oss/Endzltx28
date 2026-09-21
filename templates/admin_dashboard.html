@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل مدیریت - ZLT X28</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Vazirmatn', sans-serif; background-color: #0b0f19; color: #f3f4f6; }</style>
+</head>
+<body class="p-6">
+    <div class="max-w-6xl mx-auto space-y-8">
+        <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+            <h1 class="text-2xl font-bold text-white">پنل مدیریت مودم ZLT X28</h1>
+            <a href="/admin/logout" class="bg-rose-500/10 text-rose-400 border border-rose-500/30 px-4 py-2 rounded-xl text-xs hover:bg-rose-500/20">خروج ادمین</a>
+        </div>
+
+        <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
+            <h2 class="text-lg font-bold text-sky-400 mb-4">ارسال پیام همگانی (Broadcast)</h2>
+            <form action="/admin/broadcast" method="POST" class="flex gap-4">
+                <input type="text" name="message" placeholder="متن پیام عمومی..." required class="flex-grow bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-sm text-white">
+                <button type="submit" class="bg-sky-500 hover:bg-sky-400 text-white font-semibold px-6 py-2 rounded-xl text-sm">ارسال به همه</button>
+            </form>
+        </div>
+
+        <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
+            <h2 class="text-lg font-bold text-sky-400 mb-4">لیست کاربران و به‌روزرسانی حجم</h2>
+            <div class="space-y-6">
+                {% for uid, user in users.items() %}
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-white">کاربر: {{ user.username }}</span>
+                        <span class="text-xs text-slate-400">اعتبار باقی‌مانده: {{ user.days }} روز</span>
+                    </div>
+                    
+                    <form action="/admin/update_user/{{ uid }}" method="POST" class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        <div>
+                            <label class="text-[10px] text-slate-400">حجم کل (GB)</label>
+                            <input type="number" step="0.1" name="total" value="{{ user.total }}" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs text-white">
+                        </div>
+                        <div>
+                            <label class="text-[10px] text-slate-400">مصرف شده (GB)</label>
+                            <input type="number" step="0.1" name="used" value="{{ user.used }}" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs text-white">
+                        </div>
+                        <div>
+                            <label class="text-[10px] text-slate-400">روز باقی‌مانده</label>
+                            <input type="number" name="days" value="{{ user.days }}" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs text-white">
+                        </div>
+                        <div class="flex items-end">
+                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-2 rounded-lg text-xs">ذخیره تغییرات</button>
+                        </div>
+                    </form>
+
+                    <form action="/admin/private_msg/{{ uid }}" method="POST" class="flex gap-2">
+                        <input type="text" name="private_message" value="{{ user.get('private_message', '') }}" placeholder="پیام اختصاصی برای این کاربر..." class="flex-grow bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white">
+                        <button type="submit" class="bg-purple-600 hover:bg-purple-500 text-white font-semibold px-4 py-2 rounded-lg text-xs">ارسال پیام خصوصی</button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+  </html>
